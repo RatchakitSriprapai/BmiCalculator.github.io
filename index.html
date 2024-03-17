@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/jpg" href="3058995.png">
+<title>BMI Calculator</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        flex-direction: column; /* Stack elements vertically */
+        align-items: center;
+        min-height: 100vh; /* Ensure the body takes up at least the height of the viewport */
+        margin: 0;
+        background-image: url('https://images.squarespace-cdn.com/content/v1/608b214921bfe530b1e7f160/71a1aab0-9278-45e5-80d3-37e36ee594a1/organic-food-store-redding.jpg'); /* Add your food image URL here */
+        background-size: cover; /* Cover the entire background */
+        background-repeat: no-repeat; /* Prevent image from repeating */
+        position: relative; /* Required for positioning of absolute elements */
+    }
+    .container {
+        max-width: 500px; /* Increased size by 20% */
+        padding: 70px; /* Increased padding */
+        border-radius: 20px;
+        text-align: center;
+        background-color: #fff; /* White background */
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow effect */
+        margin: 0 auto; /* Center horizontally */
+        margin-top: 20vh; /* Shift container to the vertical center */
+    }
+    h2 {
+        margin-bottom: 20px; /* Added margin to the heading */
+        color: #007f5f; /* Green color for the heading */
+    }
+    label {
+        display: block;
+        margin-bottom: 10px;
+        color: #007f5f; /* Green color for labels */
+    }
+    input[type="number"] {
+        width: calc(100% - 20px); /* Adjusted input width */
+        padding: 10px;
+        margin-bottom: 20px; /* Increased margin */
+        border: 1px solid #007f5f; /* Green border for inputs */
+        border-radius: 5px;
+        box-sizing: border-box; /* Include padding and border in width calculation */
+    }
+    select {
+        width: calc(100% - 20px); /* Adjusted select width */
+        padding: 10px;
+        margin-bottom: 20px; /* Increased margin */
+        border: 1px solid #007f5f; /* Green border for select */
+        border-radius: 5px;
+        box-sizing: border-box; /* Include padding and border in width calculation */
+    }
+    button {
+        width: 100%; /* Full-width button */
+        padding: 12px;
+        background-color: #007f5f; /* Green background */
+        color: #fff; /* White text color */
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease; /* Smooth transition on hover */
+    }
+    button:hover {
+        background-color: #005941; /* Darker green on hover */
+    }
+    #result {
+        margin-top: 20px;
+        color: #007f5f; /* Green color for result text */
+    }
+    .bottom-label {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 7%; /* Set height to cover 40% of the viewport height */
+        background-color: #005a44;
+        color: #fff;
+        padding: 10px;
+        border-radius: 5px;
+        display: flex;
+        justify-content: center; /* Align content horizontally */
+        align-items: center; /* Align content vertically */
+        text-align: center; /* Center text horizontally */
+        font-size: 20px; /* Increase font size */
+    }
+    .top-label {
+        position: absolute;
+        width: 100%;
+        height: 7%; /* Set height to cover 40% of the viewport height */
+        background-color: #005a44;
+        color: #fff;
+        padding: 10px;
+        border-radius: 5px;
+        display: flex;
+        justify-content: center; /* Align content horizontally */
+        align-items: center; /* Align content vertically */
+        text-align: center; /* Center text horizontally */
+        font-size: 19px; /* Increase font size */
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h2>BMI Calculator</h2>
+    <select id="units" onchange="updateLabels()">
+        <option value="metric">Metric (kg, cm)</option>
+        <option value="imperial">Imperial (lbs, inches)</option>
+    </select>
+    <label id="weightLabel" for="weight">Weight:</label>
+    <input type="number" id="weight" placeholder="Enter weight">
+    <label id="heightLabel" for="height">Height:</label>
+    <input type="number" id="height" placeholder="Enter height">
+    <button onclick="calculateBMI()">Calculate BMI</button>
+    <div id="result"></div>
+</div>
+
+<div class="bottom-label">
+    007-กมลภัทร กุชนันท์ | 018-วรพล อุดม | 020-สรวิศ บัวบั้น | 028-ปฏิญญา ทองเนื้อแปด | 030-รัชกฤช ศรีประไพ | 032-พันธกานต์ นิลจันทร์ | 035-อังคสิทธิ์ การุณชาติ | 051-พลวิชญ์ ฉัตรแก้ว
+</div>
+
+<div class="top-label">
+    
+</div>
+
+<script>
+    function calculateBMI() {
+        var weight = parseFloat(document.getElementById('weight').value);
+        var height = parseFloat(document.getElementById('height').value);
+        var units = document.getElementById('units').value;
+        var bmi;
+        var resultText;
+
+        if (units === 'metric') {
+            bmi = weight / Math.pow(height / 100, 2);
+        } else {
+            bmi = (weight / Math.pow(height, 2)) * 703;
+        }
+
+        if (bmi < 18.5) {
+            resultText = "You are underweight.";
+            document.getElementById('result').style.color = "red";
+        } else if (bmi < 25) {
+            resultText = "You have a normal weight.";
+            document.getElementById('result').style.color = "green";
+        } else if (bmi < 30) {
+            resultText = "You are overweight.";
+            document.getElementById('result').style.color = "orange";
+        } else {
+            resultText = "You are obese." + "<br>" + "Start losing weight now!!!";
+            document.getElementById('result').style.color = "red";
+        }
+
+        document.getElementById('result').innerHTML = "Your BMI is: " + "<span style='font-size: 20px;'>" + bmi.toFixed(2) + "</span>" + "<br>" + resultText;
+    }
+
+    function updateLabels() {
+        var units = document.getElementById('units').value;
+        var weightLabel = document.getElementById('weightLabel');
+        var heightLabel = document.getElementById('heightLabel');
+
+        if (units === 'metric') {
+            weightLabel.textContent = "Weight (kg):";
+            heightLabel.textContent = "Height (cm):";
+        } else {
+            weightLabel.textContent = "Weight (lbs):";
+            heightLabel.textContent = "Height (inches):";
+        }
+    }
+</script>
+
+</body>
+</html>
